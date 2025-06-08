@@ -21,7 +21,7 @@ export default function HomePage() {
   const [results, setResults] = useState<{GEMINI: number; OPENAI: number; GROK: number} | null>(null)
   const { toast } = useToast();
 
-  const fetchStorySegment = useCallback((step: number) => {
+  const fetchStorySegment = useCallback(() => {
     setIsLoadingContent(true);
     // Simulate API delay
     // setTimeout(() => {
@@ -53,7 +53,7 @@ export default function HomePage() {
   // }, [currentStep, showResults, fetchStorySegment]);
   useEffect(() => {
     if (!showResults) {
-      fetchStorySegment(currentStep);
+      fetchStorySegment();
     }
   }, []);
 
@@ -107,6 +107,8 @@ export default function HomePage() {
     setFinalSummary(null);
     setIsLoadingContent(true);
     setIsSummarizing(false);
+    setResults(null)
+    fetchStorySegment();
   };
 
   // Initial load or when restarting
