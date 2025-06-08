@@ -18,11 +18,11 @@ export async function GET(request: Request) {
         },
         {
           id: 2,
-          imageUrl: "/images/1000028452.jpg"
+          imageUrl: "/images/1000028453.jpg"
         },
         {
           id: 3,
-          imageUrl: "/images/1000028452.jpg"
+          imageUrl: "/images/1000028463.jpg"
         }]
     }
   ]
