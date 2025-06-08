@@ -14,15 +14,15 @@ export async function GET(request: Request) {
       images: [
         {
           id: 1,
-          imageUrl: "/images/url.jpg"
+          imageUrl: "/images/1000028452.jpg"
         },
         {
           id: 2,
-          imageUrl: "/images/url.jpg"
+          imageUrl: "/images/1000028452.jpg"
         },
         {
           id: 3,
-          imageUrl: "/images/url.jpg"
+          imageUrl: "/images/1000028452.jpg"
         }]
     }
   ]
