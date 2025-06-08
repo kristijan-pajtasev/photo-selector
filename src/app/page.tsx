@@ -45,11 +45,16 @@ export default function HomePage() {
     })()
   }, [toast]);
 console.log(currentStoryContent, currentStep, isLoadingContent)
+  // useEffect(() => {
+  //   if (!showResults) {
+  //     fetchStorySegment(currentStep);
+  //   }
+  // }, [currentStep, showResults, fetchStorySegment]);
   useEffect(() => {
     if (!showResults) {
       fetchStorySegment(currentStep);
     }
-  }, [currentStep, showResults, fetchStorySegment]);
+  }, []);
 
   useEffect(() => {
     if (showResults && userSelections.length === TOTAL_STORY_STEPS && !finalSummary && !isSummarizing) {
@@ -74,7 +79,7 @@ console.log(currentStoryContent, currentStep, isLoadingContent)
   }, [showResults, userSelections, finalSummary, toast, isSummarizing]);
 
   const handleImageSelect = (selectedOption: StoryImageOption) => {
-    // setUserSelections(prev => [...prev, selectedOption.choiceText]);
+    setUserSelections(prev => [...prev, selectedOption.id]);
     if (currentStep < TOTAL_STORY_STEPS) {
       setCurrentStep(prev => prev + 1);
     } else {

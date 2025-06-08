@@ -26,16 +26,12 @@ export async function GET(request: Request) {
         }]
     }
   ]
-  return NextResponse.json({images})
-  // const userDataResponse = await getUserData()
-  // const userData = userDataResponse && userDataResponse.length > 0 ? userDataResponse[0] : null;
-  // if (!userData) return NextResponse.error()
-  // const companyId = userData.company[0].id
-  //
-  // const roomsForCompany = await getRoomsForCompany(companyId)
-  // console.log("roomsForCompany: ", roomsForCompany);
-  // return NextResponse.json({
-  //   rooms: roomsForCompany
-  // })
+  for(let i = 0; i < 9; i ++) {
+    images.push({
+      ...images[0],
+      promptId: i + 2,
+    })
+  }
+  return NextResponse.json({images});
 }
 
