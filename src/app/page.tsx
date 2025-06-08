@@ -6,7 +6,7 @@ import { StoryStep } from '@/components/story-step';
 import { ResultsDisplay } from '@/components/results-display';
 import { LoadingIndicator } from '@/components/loading-indicator';
 import { storyStepsData, TOTAL_STORY_STEPS, type StoryStepContent, type StoryImageOption } from '@/lib/story-data';
-import { summarizeSelections, type SummarizeSelectionsOutput } from '@/ai/flows/summarize-story';
+// import { summarizeSelections, type SummarizeSelectionsOutput } from '@/ai/flows/summarize-story';
 import { useToast } from "@/hooks/use-toast";
 import { Images as ImagesIcon } from 'lucide-react'; // Changed from Image to Images
 
