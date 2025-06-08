@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 205 69% 89%; /* #D0E7F5 light pastel blue */
+    --foreground: 215 28% 17%; /* Dark grayish blue for good contrast */
+
+    --card: 205 60% 95%; /* #EAF3FA Very light blue, almost white */
+    --card-foreground: 215 28% 17%;
+
+    --popover: 205 69% 92%; /* Slightly lighter background for popovers */
+    --popover-foreground: 215 28% 17%;
+
+    --primary: 127 34% 70%; /* #A7D1AB pastel teal */
+    --primary-foreground: 120 50% 15%; /* Dark green/black for teal */
+
+    --secondary: 210 40% 80%; /* A slightly different pastel #C2D6E6 */
+    --secondary-foreground: 210 30% 20%; /* Darker blue for secondary */
+
+    --muted: 205 50% 80%; /* #BFD9EB */
+    --muted-foreground: 215 15% 45%; /* #626C7F */
+
+    --accent: 244 51% 79%; /* #B1AEE8 muted pastel purple */
+    --accent-foreground: 240 50% 15%; /* Dark purple/black for purple */
+
+    --destructive: 0 72% 51%; /* Standard red for errors */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 205 40% 78%; /* #B8D4E8 */
+    --input: 205 50% 85%; /* #C9E0EF */
+    --ring: 244 51% 70%; /* Darker accent for focus rings #9A96DE */
+
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+
+    /* Set sidebar colors to match main theme to avoid issues if any component uses them */
+    --sidebar-background: var(--card);
+    --sidebar-foreground: var(--card-foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--accent);
+    --sidebar-accent-foreground: var(--accent-foreground);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--ring);
+  }
+
+  .dark {
+    /* Keeping dark mode variables, but Story Weaver uses a light theme by default */
+    --background: 215 28% 17%; /* Dark grayish blue from light theme's foreground */
+    --foreground: 205 69% 89%; /* Light pastel blue from light theme's background */
+
+    --card: 215 25% 22%; /* Darker card */
+    --card-foreground: 205 69% 89%;
+
+    --popover: 215 28% 15%;
+    --popover-foreground: 205 69% 89%;
+
+    --primary: 127 34% 70%; /* Pastel teal - can remain same or adjust for dark */
+    --primary-foreground: 120 50% 15%;
+
+    --secondary: 210 40% 30%; /* Darker secondary */
+    --secondary-foreground: 205 69% 89%;
+
+    --muted: 215 20% 25%;
+    --muted-foreground: 205 50% 70%;
+
+    --accent: 244 51% 79%; /* Muted pastel purple - can remain same or adjust */
+    --accent-foreground: 240 50% 15%;
+
+    --destructive: 0 63% 40%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 215 20% 30%;
+    --input: 215 20% 30%;
+    --ring: 244 51% 65%; /* Slightly adjusted ring for dark */
+
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    --sidebar-background: var(--card);
+    --sidebar-foreground: var(--card-foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--accent);
+    --sidebar-accent-foreground: var(--accent-foreground);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--ring);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
