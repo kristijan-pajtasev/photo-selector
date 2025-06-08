@@ -23,17 +23,38 @@ export async function GET(request: Request) {
         {
           id: 3,
           imageUrl: "/images/1000028463.jpg"
-        }]
+        }].sort(() => Math.random() - 0.5)
     }
   ]
-  for(let i = 0; i < 9; i ++) {
+  const aiModelElement = {
+    promptId: 66,
+    text: "Which is your favourite AI generator",
+    images: [
+      {
+        id: 55,
+        imageUrl: "/images/gemini.jpg"
+      },
+      {
+        id: 56,
+        imageUrl: "/images/grok.jpg"
+      },
+      {
+        id: 67,
+        imageUrl: "/images/openai.jpg"
+      }].sort(() => Math.random() - 0.5)
+  }
+
+  for (let i = 0; i < 8; i++) {
     images.push({
       ...images[0],
-      text: `prompt ${i+2}`,
+      images: [...images[0].images].sort(() => Math.random() - 0.5),
+      text: `prompt ${i + 2}`,
       promptId: i + 2,
     })
   }
-  return NextResponse.json({images});
+  const splitElementIndex = Math.floor(Math.random() * 6)
+  const finalImages = [...images.slice(0, splitElementIndex), aiModelElement, ...images.slice(splitElementIndex)];
+  return NextResponse.json({images: finalImages});
 }
 
 export async function POST(request: Request) {
