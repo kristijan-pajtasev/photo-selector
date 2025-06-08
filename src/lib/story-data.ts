@@ -1,9 +1,9 @@
 export interface StoryImageOption {
   id: string;
   imageUrl: string;
-  altText: string;
-  choiceText: string; // Text describing this choice for the summary and AI
-  dataAiHint: string; // Hint for Unsplash image search
+  altText?: string;
+  choiceText?: string; // Text describing this choice for the summary and AI
+  dataAiHint?: string; // Hint for Unsplash image search
 }
 
 export interface StoryStepContent {

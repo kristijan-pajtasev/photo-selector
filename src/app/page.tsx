@@ -13,7 +13,7 @@ import { Images as ImagesIcon } from 'lucide-react'; // Changed from Image to Im
 export default function HomePage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [userSelections, setUserSelections] = useState<string[]>([]);
-  const [currentStoryContent, setCurrentStoryContent] = useState<StoryStepContent | null>(null);
+  const [currentStoryContent, setCurrentStoryContent] = useState<Array<StoryStepContent> | null>(null);
   const [isLoadingContent, setIsLoadingContent] = useState(true);
   const [showResults, setShowResults] = useState(false);
   const [finalSummary, setFinalSummary] = useState<string | null>(null);
@@ -23,20 +23,28 @@ export default function HomePage() {
   const fetchStorySegment = useCallback((step: number) => {
     setIsLoadingContent(true);
     // Simulate API delay
-    setTimeout(() => {
-      const content = storyStepsData.find(s => s.step === step) || null;
-      setCurrentStoryContent(content);
-      setIsLoadingContent(false);
-      if (!content && step <= TOTAL_STORY_STEPS) {
-        toast({
-          title: "Content Error",
-          description: `Could not load content for selection round ${step}. Please try restarting.`,
-          variant: "destructive",
-        });
-      }
-    }, 500); // 0.5 second delay
+    // setTimeout(() => {
+    //   const content = storyStepsData.find(s => s.step === step) || null;
+    //   setCurrentStoryContent(content);
+    //   setIsLoadingContent(false);
+    //   if (!content && step <= TOTAL_STORY_STEPS) {
+    //     toast({
+    //       title: "Content Error",
+    //       description: `Could not load content for selection round ${step}. Please try restarting.`,
+    //       variant: "destructive",
+    //     });
+    //   }
+    // }, 500); // 0.5 second delay
+    (async() => {
+      const imagesRequest = await fetch("/api/images")
+      const imagesData = await imagesRequest.json();
+      console.log(imagesData)
+      setCurrentStoryContent(imagesData.images);
+      setCurrentStep(0);
+      setIsLoadingContent(false)
+    })()
   }, [toast]);
-
+console.log(currentStoryContent, currentStep, isLoadingContent)
   useEffect(() => {
     if (!showResults) {
       fetchStorySegment(currentStep);
@@ -66,7 +74,7 @@ export default function HomePage() {
   }, [showResults, userSelections, finalSummary, toast, isSummarizing]);
 
   const handleImageSelect = (selectedOption: StoryImageOption) => {
-    setUserSelections(prev => [...prev, selectedOption.choiceText]);
+    // setUserSelections(prev => [...prev, selectedOption.choiceText]);
     if (currentStep < TOTAL_STORY_STEPS) {
       setCurrentStep(prev => prev + 1);
     } else {
@@ -107,7 +115,7 @@ export default function HomePage() {
       </header>
 
       <div className="w-full transition-opacity duration-500 ease-in-out">
-        {showResults ? (
+        {(showResults || !currentStoryContent) ? (
           <ResultsDisplay
             userSelections={userSelections}
             storySummary={finalSummary}
@@ -116,7 +124,7 @@ export default function HomePage() {
           />
         ) : (
           <StoryStep
-            stepContent={currentStoryContent}
+            stepContent={currentStoryContent[currentStep]}
             onImageSelect={handleImageSelect}
             isLoading={isLoadingContent}
             currentStep={currentStep}
