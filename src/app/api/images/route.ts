@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   const images = [
     {
       promptId: 1,
-      text: "hello world 1",
+      text: "prompt",
       images: [
         {
           id: 1,
@@ -29,9 +29,19 @@ export async function GET(request: Request) {
   for(let i = 0; i < 9; i ++) {
     images.push({
       ...images[0],
+      text: `prompt ${i+2}`,
       promptId: i + 2,
     })
   }
   return NextResponse.json({images});
+}
+
+export async function POST(request: Request) {
+  const results = {
+    GEMINI: 4,
+    GROK: 3,
+    OPENAI: 3
+  }
+  return NextResponse.json({results});
 }
 

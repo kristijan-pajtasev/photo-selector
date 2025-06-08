@@ -18,6 +18,7 @@ export default function HomePage() {
   const [showResults, setShowResults] = useState(false);
   const [finalSummary, setFinalSummary] = useState<string | null>(null);
   const [isSummarizing, setIsSummarizing] = useState(false);
+  const [results, setResults] = useState<{GEMINI: number; OPENAI: number; GROK: number} | null>(null)
   const { toast } = useToast();
 
   const fetchStorySegment = useCallback((step: number) => {
@@ -44,7 +45,7 @@ export default function HomePage() {
       setIsLoadingContent(false)
     })()
   }, [toast]);
-console.log(currentStoryContent, currentStep, isLoadingContent)
+
   // useEffect(() => {
   //   if (!showResults) {
   //     fetchStorySegment(currentStep);
@@ -56,34 +57,45 @@ console.log(currentStoryContent, currentStep, isLoadingContent)
     }
   }, []);
 
-  useEffect(() => {
-    if (showResults && userSelections.length === TOTAL_STORY_STEPS && !finalSummary && !isSummarizing) {
-      setIsSummarizing(true);
-      summarizeSelections({ storyChoices: userSelections }) 
-        .then((summaryOutput: SummarizeSelectionsOutput) => { 
-          setFinalSummary(summaryOutput.summary);
-        })
-        .catch(error => {
-          console.error("Error summarizing selections:", error);
-          setFinalSummary("The Photo Selector encountered an issue and couldn't complete the summary. Please try again.");
-           toast({
-            title: "AI Summary Failed",
-            description: "Could not generate the AI selection summary. Please check the console for errors.",
-            variant: "destructive",
-          });
-        })
-        .finally(() => {
-          setIsSummarizing(false);
-        });
-    }
-  }, [showResults, userSelections, finalSummary, toast, isSummarizing]);
+  // useEffect(() => {
+  //   if (showResults && userSelections.length === TOTAL_STORY_STEPS && !finalSummary && !isSummarizing) {
+  //     setIsSummarizing(true);
+  //     summarizeSelections({ storyChoices: userSelections })
+  //       .then((summaryOutput: SummarizeSelectionsOutput) => {
+  //         setFinalSummary(summaryOutput.summary);
+  //       })
+  //       .catch(error => {
+  //         console.error("Error summarizing selections:", error);
+  //         setFinalSummary("The Photo Selector encountered an issue and couldn't complete the summary. Please try again.");
+  //          toast({
+  //           title: "AI Summary Failed",
+  //           description: "Could not generate the AI selection summary. Please check the console for errors.",
+  //           variant: "destructive",
+  //         });
+  //       })
+  //       .finally(() => {
+  //         setIsSummarizing(false);
+  //       });
+  //   }
+  // }, [showResults, userSelections, finalSummary, toast, isSummarizing]);
 
+  const saveResults = async (results) => {
+    // setIsSummarizing(true);
+    setIsLoadingContent(true)
+    const resultsRequest = await fetch("/api/images", {method:"POST", body: JSON.stringify({selections: results})})
+    const resultsData = await resultsRequest.json()
+    console.log(results, resultsData)
+    setResults(resultsData.results)
+    setShowResults(true);
+    setIsLoadingContent(false)
+  }
   const handleImageSelect = (selectedOption: StoryImageOption) => {
     setUserSelections(prev => [...prev, selectedOption.id]);
-    if (currentStep < TOTAL_STORY_STEPS) {
+    if (currentStep < currentStoryContent?.length - 1) {
       setCurrentStep(prev => prev + 1);
     } else {
-      setShowResults(true);
+      // setShowResults(true);
+      saveResults([...userSelections, selectedOption.id])
     }
   };
 
@@ -121,12 +133,13 @@ console.log(currentStoryContent, currentStep, isLoadingContent)
 
       <div className="w-full transition-opacity duration-500 ease-in-out">
         {(showResults || !currentStoryContent) ? (
-          <ResultsDisplay
+          (results ? <ResultsDisplay
+            results={results}
             userSelections={userSelections}
             storySummary={finalSummary}
             onRestart={handleRestart}
             isSummarizing={isSummarizing}
-          />
+          /> : null)
         ) : (
           <StoryStep
             stepContent={currentStoryContent[currentStep]}
